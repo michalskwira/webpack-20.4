@@ -1,18 +1,17 @@
-rules: [
-    {
-        test: /\.js$/,
-        loader: "babel-loader"
+const path = require('path');
+
+module.exports = {
+    entry: './src/index.js',
+        output: {
+        path: path.resolve(__dirname, 'build'),
+        filename: 'app.bundle.js'
     },
-    {
-        test: /\.css$/,
-        use: [
-            { loader: 'style-loader'},
+    module: {
+        rules: [
             {
-                loader: 'css-loader',
-                options: {
-                    modules: true
-                }
+                test: /\.js$/,
+                loader: "babel-loader"
             }
         ]
     }
-]
+};
