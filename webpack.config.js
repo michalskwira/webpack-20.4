@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const OptimizeJsPlugin = require('optimize-js-plugin');
+const OptimizePlugin = require('optimize-js-plugin');
 
 const plugins = [
     new HtmlWebpackPlugin({
@@ -10,46 +10,46 @@ const plugins = [
     }),
 ];
 
-
 module.exports = (env) => {
     if (env === 'production') {
         plugins.push(
-            new OptimizeJsPlugin({
+            new OptimizePlugin({
                 sourceMap: false
             })
         )
     }
     return {
-        mode: environment,
+        mode: env || 'production',
         entry: './src/index.js',
         output: {
             path: path.resolve(__dirname, 'build'),
-            filename: 'app.' + environment + '.bundle.js'
+            filename: 'app' + env + 'bundle.js'
         },
-
         module: {
             rules: [
-            {
-                test: /\.js$/,
-                loader: "babel-loader"
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    { loader: 'style-loader'},
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            modules: true
-                        }
+                {
+                    test: /\.js$/,
+                    loader: "babel-loader",
+                    options: {
+                        plugins: env !== 'production' ? ["react-hot-loader/babel"] : []
                     }
-                ]
-            }]
+                },
+                {
+                    test: /\.css$/,
+                    use: [
+                        { loader: 'style-loader'},
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                modules: true
+                            }
+                        }
+                    ]
+                }
+            ]
         },
-        optimization: {
-            minimize: false
-        }
+        plugins // czyli plugins: plugins
     }
-    
-}
-plugins
+};
+
+
