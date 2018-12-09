@@ -10,8 +10,10 @@ const plugins = [
 ];
 
 module.exports = (env) => {
+    const environment = env || 'production';
+
     return {
-        mode: env || 'production',
+        mode: environment,
         entry: './src/index.js',
         output: {
             path: path.resolve(__dirname, 'build'),
@@ -35,8 +37,11 @@ module.exports = (env) => {
                         }
                     }
                 ]
-            }
-        ]
-    },
-},
-},
+            }]
+        },
+        optimization: {
+            minimize: false
+        }
+    }
+    
+}
