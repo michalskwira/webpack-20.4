@@ -3,6 +3,7 @@ import uuid from 'uuid';
 import style from './App.css';
 import Title from '../components/Title';
 import TodoList from '../components/TodoList';
+import TodoForm from '../components/TodoForm';
 import { hot } from 'react-hot-loader';
 
 class App extends React.Component {
@@ -11,21 +12,21 @@ class App extends React.Component {
         this.state = {
             data: [
                 {
-                        id: 1,
-                        text: 'clean room'
-                    },
-                    {
-                        id: 2,
-                        text: 'wash the dishes'
-                    },
-                    {
-                        id: 3,
-                        text: 'eat something dude'
-                    }
+                    id: 1,
+                    text: 'clean room'
+                },
+                {
+                    id: 2,
+                    text: 'wash the dishes'
+                },
+                {
+                    id: 3,
+                    text: 'eat something dude'
+                }
             ]
         };
     }
-    addTodo(val){
+    addTodo(val) {
         const todo = {
             text: val,
             id: uuid.v4(),
@@ -40,7 +41,11 @@ class App extends React.Component {
     render() {
         return (
             <div className={style.TodoApp}>
-                Tutaj pojawią się komponenty naszej aplikacji.
+                <Title content="To-do List" tasks={this.state.data.length} />
+                <TodoForm submitHandler={this.addTodo.bind(this)} />
+                <div className={style.TodoList}>
+                    <TodoList dataList={this.state.data} removeData={this.removeTodo.bind(this)} />
+                </div>
             </div>
         );
     }
